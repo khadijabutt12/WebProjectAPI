@@ -1,5 +1,6 @@
 var createError = require('http-errors');
-const cors =require("cors");
+const cors = require('cors');
+const DataBase="mongodb+srv://khadija:Kbutt37614000@cluster0.ul2f4ht.mongodb.net/mernstack?retryWrites=true&w=majority"
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -14,10 +15,7 @@ var loginRouter = require('./routes/api/login');
 var config=require("config"); 
 
 var app = express();
-app.use(cors({
-  origin: "*",
-})
-);
+app.use(cors( { origin: "*"}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,7 +48,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-mongoose.connect(config.get("db"),{ useNewUrlParser: true, useUnifiedTopology: true,})
-.then(() => console.log("Connected to Mongo...."))
-.catch((error) => console.log(error.message));
-module.exports = app;
+//when check on localhost//compass
+//mongoose.connect(config.get("db"),{ useNewUrlParser: true, useUnifiedTopology: true,})
+//.then(() => console.log("Connected to Mongo...."))
+//.catch((error) => console.log(error.message));
+
+mongoose.connect(DataBase,{ useNewUrlParser: true, useUnifiedTopology: true,}).then(() => console.log("Connected to Mongo....")).catch((error) => console.log(error.message));
+module.exports = app; 
