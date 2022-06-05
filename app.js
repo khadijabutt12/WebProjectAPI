@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+const cors =require("cors");
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -13,6 +14,10 @@ var loginRouter = require('./routes/api/login');
 var config=require("config"); 
 
 var app = express();
+app.use(cors({
+  origin: "*",
+})
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

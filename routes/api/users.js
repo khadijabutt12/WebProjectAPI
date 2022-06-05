@@ -12,6 +12,8 @@ const config =require("config");
 router.post("/register",async(req,res)=> {
     let user = await User.findOne({Email: req.body.Email});//check
     if(user)
+
+    
     
     return res.status(400).send("user with same email id already exists");
     
