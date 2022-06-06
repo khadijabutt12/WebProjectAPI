@@ -32,7 +32,7 @@ router.post("/register",async(req,res)=> {
 router.post("/login",async(req,res)=> {
     let user = await User.findOne({Email: req.body.Email});//check
     if(!user)
-    
+    //test
     return res.status(400).send("user not exists");
     let isValid = await bcrypt.compare(req.body.Password,user.Password);
     if(!isValid)
