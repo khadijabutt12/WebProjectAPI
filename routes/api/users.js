@@ -23,7 +23,10 @@ router.post("/register",async(req,res)=> {
     user.Password=req.body.Password;
    await user.generateHashedPassword();//shifted to model
     await user.save();
-    return res.send(_.pick(user,["Name","Email"]));// as we want to give in response only these two
+    let token =jwt.sign({_id:user._id,Name:user.Name,role:user.role},
+        config.get("jwtPrivateKey"));
+    
+    return res.send(_.pick(user,["Name","Email","token"]));// as we want to give in response only these two
 
 
 
@@ -37,7 +40,7 @@ router.post("/login",async(req,res)=> {
     let isValid = await bcrypt.compare(req.body.Password,user.Password);
     if(!isValid)
     return res.status(400).send("Password is incorrect");
-    let token =jwt.sign({_id:user._id,Name:user.Name},config.get("jwtPrivateKey"));
+    let token =jwt.sign({_id:user._id,Name:user.Name,role:user.role},config.get("jwtPrivateKey"));
     return res.send(token);
 
 

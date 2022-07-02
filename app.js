@@ -2,6 +2,7 @@ var createError = require('http-errors');
 const cors = require('cors');
 const DataBase="mongodb+srv://khadija:Kbutt37614000@cluster0.ul2f4ht.mongodb.net/mernstack?retryWrites=true&w=majority"
 var express = require('express');
+//var multer =require('multer');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -11,7 +12,6 @@ var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api/users');
 var productsRouter = require('./routes/api/products');
-var loginRouter = require('./routes/api/login');
 var config=require("config"); 
 
 var app = express();
@@ -31,7 +31,7 @@ app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 
 app.use('/api/products', productsRouter);
-app.use('/api/login', loginRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

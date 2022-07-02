@@ -4,6 +4,7 @@ let router = express.Router();
 var {Product,validate} = require("../../models/products");
 const auth = require("../../middleware/auth");
 const admin=require("../../middleware/admin");
+
 //get products we are getting array we want to return a database so open new terminal
 //for products
 router.get("/",auth,async(req,res)=> {
@@ -12,13 +13,11 @@ router.get("/",auth,async(req,res)=> {
     let perPage = Number(req.query.perPage? req.query.perPage:10);
     let skipRecords = perPage * (page-1);
     let products = await Product.find().skip(skipRecords).limit(perPage);
+    
      return res.send(products);
-
-
-
 });
 // for single product
-router.get("/:id",async(req,res)=> {
+router.get("/:id",auth,admin,async(req,res)=> {
     try
     {
     let product =await Product.findById(req.params.id);
@@ -57,19 +56,17 @@ router.delete("/:id",auth,admin,async(req,res)=> {
 });
 //to post
 //validate
-router.post("/",auth,async(req,res)=> {
-
+router.post("/",auth,admin,async(req,res)=> {
     let { error} = new validate(req.body);
     if(error)
     return res.status(400).send(error.details[0].message);
-    
-    
-    let product = new Product();
+     let product = new Product();
     product.BrandName= req.body.BrandName;
     product.Description=req.body.Description;
     await product.save();
     return res.send(product);
 });
+
 
 module.exports= router;
 
